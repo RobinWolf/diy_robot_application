@@ -5,6 +5,8 @@
 
 #With this implementation, it's not necessary to build the image from the diy_full_cell_description package first, you can just run this container.
 
+#sourcing of all dependencies in the "middle" stages is not necessary, but implemented because there's no disadvantage from.
+
 ##############################################################################
 ##                           1. stage: Base Image                           ##
 ##############################################################################
@@ -141,13 +143,43 @@ USER $USER
 ###################################################################################
 ##     6. sage: Gripper Driver (includes used Service to open/ close)            ##
 ###################################################################################
+FROM diy_robotarm_driver as diy_gripper_driver
 
-#TODO
+
+# Clone the diy-soft-gripper-driver package into its own workspace
+RUN mkdir -p /home/$USER/dependencies/diy_soft_gripper_driver_ws/src
+RUN cd /home/$USER/dependencies/diy_soft_gripper_driver_ws/src && \
+    git clone https://github.com/RobinWolf/diy_soft_gripper_driver.git
+
+
+#install additional necessarity packages
+USER root
+RUN apt-get update && apt-get install -y ros-$ROS_DISTRO-rclcpp
+RUN apt-get update && apt-get install -y ros-$ROS_DISTRO-rosidl-default-generators
+RUN apt-get update && apt-get install -y ros-$ROS_DISTRO-std-srvs
+USER ${USER}
+
+
+# Build the diy-gripper-driver package and source all dependeicies inside this stage
+RUN cd /home/$USER/dependencies/diy_soft_gripper_driver_ws && \
+    . /opt/ros/$ROS_DISTRO/setup.sh && \
+    . /home/$USER/dependencies/diy_robotarm_wer24_driver_ws/install/setup.sh && \ 
+    . /home/$USER/dependencies/diy_robot_full_cell_description_ws/install/setup.sh && \
+    . /home/$USER/dependencies/diy_robotarm_wer24_description_ws/install/setup.sh && \
+    . /home/$USER/dependencies/diy_soft_gripper_description_ws/install/setup.sh && \
+    colcon build
+
+
+# Add built diy-gripper-driver package to entrypoint
+USER root
+RUN sed -i 's|exec "\$@"|source "/home/'"${USER}"'/dependencies/diy_soft_gripper_driver_ws/install/setup.bash"\n&|' /ros_entrypoint.sh
+USER $USER
+
 
 ###################################################################################
-##                     7. sage: Moveit Image from driver Image                   ##
+##    7. stage: Moveit Image from driver Image (description already included)    ##
 ###################################################################################
-FROM  diy_robotarm_driver as diy-robotarm-moveit
+FROM  diy_gripper_driver as diy_robotarm_moveit
 
 # install dependencie packages
 USER root
@@ -181,30 +213,25 @@ USER $USER
 
 RUN cd /home/"$USER"/py_dependencies/manipulation_tasks && pip install .
 
-# Clone the diy-robot-application package into its own workspace
-RUN mkdir -p /home/$USER/dependencies/diy_robot_wer24_moveit/src
-RUN cd /home/$USER/dependencies/diy_robot_wer24_moveit_ws/src && \
-    git clone https://github.com/RobinWolf/diy_robotarm_wer24_driver.git                                     ## change to moveit
-    
 
-# Build and source the diy-robot-application package and source all dependeicies inside this stage
-RUN cd /home/$USER/dependencies/diy_robot_wer24_moveit_ws && \
-   . /opt/ros/$ROS_DISTRO/setup.sh && \
-   . /home/$USER/dependencies/diy_robot_full_cell_description_ws/install/setup.sh && \
-   . /home/$USER/dependencies/diy_robotarm_wer24_description_ws/install/setup.sh && \
-   . /home/$USER/dependencies/diy_soft_gripper_description_ws/install/setup.sh && \
-   . /home/$USER/dependencies/diy_robotarm_wer24_driver_ws/install/setup.sh && \
-   colcon build
+# Clone the diy-soft-gripper-driver package into its own workspace      ----> this is only for deployment!
+#RUN mkdir -p /home/$USER/dependencies/diy_robot_moveit_ws/src
+#RUN cd /home/$USER/dependencies/diy_robot_moveit_ws/src && \
+#    git clone https://github.com/RobinWolf/diy_robot_wer24_moveit.git
 
 
-# Add built diy-robot-moveit package to ros entrypoint
-USER root
-RUN sed -i 's|exec "\$@"|source "/home/'"${USER}"'/dependencies/diy_robot_wer24_moveit_ws/install/setup.bash"\n&|' /ros_entrypoint.sh
-USER $USER
+# Build and source the diy-robotarm-wer24-moveit description package and source all dependeicies inside this stage
+# RUN cd /home/$USER/dependencies/diy_robot_moveit_ws && \
+#    . /opt/ros/$ROS_DISTRO/setup.sh && \
+#     . /home/$USER/dependencies/diy_soft_gripper_driver_ws/install/setup.sh && \ 
+#     . /home/$USER/dependencies/diy_robotarm_wer24_driver_ws/install/setup.sh && \ 
+#     . /home/$USER/dependencies/diy_robot_full_cell_description_ws/install/setup.sh && \
+#     . /home/$USER/dependencies/diy_robotarm_wer24_description_ws/install/setup.sh && \
+#     . /home/$USER/dependencies/diy_soft_gripper_description_ws/install/setup.sh && \
+#     colcon build
 
-
-##############################################################################
-##                           8. stage Application                           ##
-##############################################################################
-FROM diy-robotarm-moveit as diy-application
+###################################################################################
+##    8. stage: Moveit Image from driver Image (description already included)    ##
+###################################################################################
+FROM  diy_robotarm_moveit as diy_robotarm_application
 
