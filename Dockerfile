@@ -238,7 +238,6 @@ RUN sed -i 's|exec "\$@"|source "/home/'"${USER}"'/dependencies/diy_robot_moveit
 USER $USER
 
 ###################################################################################
-##                8. stage: start Moveit with default launh arguments            ##
+##                8. stage: source evervthing in application package             ##
 ###################################################################################
 
-CMD ["ros2", "launch", "diy_robot_wer24_moveit", "complete.launch.py"]
