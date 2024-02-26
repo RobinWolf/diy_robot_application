@@ -141,7 +141,7 @@ def main(args=None):
     rclpy.init(args=args)
 
     # initialize robot client node --> this will create clients in the RobotConnection class which call services to communicate with moveit
-    robot = RobotClient(is_simulation=True)     # if not connected to the real robot set is_simulation=True 
+    robot = RobotClient(is_simulation=False)     # if not connected to the real robot set is_simulation=True 
     
     # move robot to home position (use default [0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
     robot.home()
