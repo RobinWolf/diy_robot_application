@@ -12,6 +12,7 @@ gid=$(eval "id -g")
 #dont use cached data to clone up-to date repos all the time
   #--no-cache \
 docker build \
+  --no-cache \
   --build-arg ROS_DISTRO="$ROS_DISTRO" \
   --build-arg UID="$uid" \
   --build-arg GID="$gid" \
