@@ -5,6 +5,7 @@
 This is the final Readme of our whole series documenting the ROS-Integration for our 6 axis DIY-robot (designed by LOBOCNC) with our parallel gripper.
 All the other repos you should have looked at before using the software provided inside of this repo are included here as dependencies inside of this docker container and make the whole ROS-integration work.
 For a general overwiew please refer to the main ROS-repo of our project: https://github.com/mathias31415/diy_robotics/tree/main/ROS-Packages
+
 It's also highly recommended to read the other linked package-repos to understand how ROS is working and how you affect ROS when you program your own robotics application inside this package.
 
 For clarity reasons al the needed dependencies are not located inside your main ROS-workspace. This graphic was shown in the main repo already, but it explains the structure inside the docker container you will use inside this tutorial very well:
@@ -97,7 +98,7 @@ Please follow this workflow to create your own application:
 ```python
 import rclpy
 from ros_environment.scene import RobotClient
-from manipulation_tasks.transform import Affine #für 6D Transformation 
+from manipulation_tasks.transform import Affine #for 6D transformation 
 import numpy as np
 
 def main(args=None):
