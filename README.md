@@ -28,11 +28,43 @@ This package is designed as an development-package. We will work with the ````sr
 We will come back later to this point.
 
 ## HowTo: Your first robot application:
-1) clone this repo to your dev-machine
-2) open VS-Code or any other IDE and add the ````src````folder to your workspace
+
+### Set up the Workspace:
+1) download/ clone this repo to your dev-machine
+2) open VS-Code or any other IDE and add the ````src```` folder to your workspace
 3) open a terimial (Terminator ist highly recommended)
 4) navigate to the folder you cloned the repo in from step 1 (using cd <path> and ls to view content)
 5) build the container by sourcing the run-script ````./run.sh```` Note: working wifi connection is required because the dependencie packages will now be cloned directly in your container from GitHub.
 
 Now you should be inside your docker container:
 ![inside_conteiner(../images/inside_conteiner.png)
+
+### Set up the Application in Simulation (use_fake_hardware:=true) and execute the provided example.py:
+1) build your workspace inside of the container ````colcon build````
+2) source your workspace ````source install/setup.bash````
+3) launch all required nodes to make the whole integration work by typing the following line in your terminal ````ros2 launch diy_robot_wer24_moveit complete.launch.py````
+   In this case we don't pass launch arguments because we want to use the defaults.
+
+Now the Rviz window with MoveIt included should have started:
+![moveit_screen](../images/moveit_screen.png)
+
+Now you can move the robot arond and perform motion planning tasks by pressing the Plan& Execute button on the lower lefthand side.
+Feel free to try all functionalities Rviz already provides.
+
+4) open another terminal (when you use terminator you can just press Ctrl + Shift + e)
+5) connect the new terminal to the one already running with ````docker ecex -it diy_robot_application bash````
+6) switch back to VS-Code on your dev-machine and open your application file, for example ````example.py````
+7) make sure that the argument ```robot = RobotClient(is_simulation=False)``` is passed when you work with fake hardware (if this is not passed MoveIt trys to connect to the gripper hardware and fails)
+8) make sure the code you want to execute is placed inside the main-loop
+9) switch back to the docker container (second terminal)
+10) build and source your workspace
+11) execute the example.py by typing the following line in your terminal ````ros2 run diy_robot_application example````
+
+Now you should see the robot move in Rviz (Note: gripper movements will not be displayed for simplicity reasons)
+
+## Write your own Application File:
+
+
+
+
+
