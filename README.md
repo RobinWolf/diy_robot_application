@@ -10,13 +10,13 @@ It's also highly recommended to read the other linked package-repos to understan
 
 For clarity reasons al the needed dependencies are not located inside your main ROS-workspace. This graphic was shown in the main repo already, but it explains the structure inside the docker container you will use inside this tutorial very well:
 
-![container_structure](../images/container_structure.png)
+![container_structure](images/container_structure.png)
 
 Due to this structure you have the opportunity to launch all the mentioned launch files in the other repos. But this is only for validation and testing purposes and not recommendet for beginners. If you are intrested please refer to the other repo readmes.
 
 ## Package Structure
 
-![application_files](../images/application_files.png)
+![application_files](images/application_files.png)
 
 This package has the build type ````ament_python```` so it allows you to program in Python and execute these scripts from the command line of your terminal.
 It contains the following folders/ files:
@@ -50,7 +50,7 @@ Now you should be inside your docker container at your working workspace ````hep
 
 Now the Rviz window with MoveIt included should have started:
 
-![moveit_window](../images/moveit_window.png)
+![moveit_window](images/moveit_window.png)
 
 Now you can move the robot arond and perform motion planning tasks by pressing the Plan& Execute button on the lower lefthand side.
 Feel free to try all functionalities Rviz already provides.
