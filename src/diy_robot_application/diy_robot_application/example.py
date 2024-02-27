@@ -143,7 +143,10 @@ def main(args=None):
     # initialize robot client node --> this will create clients in the RobotConnection class which call services to communicate with moveit
     robot = RobotClient(is_simulation=False)     # if not connected to the real robot set is_simulation=True 
     
-    # move robot to home position (use default [0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+    #define a home position (when try to use default [0.0, 0.0, 0.0, 0.0, 0.0, 0.0] you don't need this definition) -> floats required
+    robot.home_position = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+    # move robot to home position
     robot.home()
 
     # run one of the test scedules to make yourself familiar with the different movements
