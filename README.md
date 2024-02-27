@@ -66,18 +66,20 @@ Feel free to try all functionalities Rviz already provides.
 
 Now you should see the robot move in Rviz (Note: gripper movements will not be displayed for simplicity reasons)
 
-### Set up the Application in Simulation (use_fake_hardware:=false) and execute the provided example.py:
+### Set up the Application with the real Hardware (use_fake_hardware:=false) and execute the provided example.py:
 1) build your workspace inside of the container ````colcon build````
 2) source your workspace ````source install/setup.bash````
 3) connect your dev-machine to the network shared with your robotics hardware (we recommend to open a lokal hotspot with your mobile phone and name it "DIY-ROBOTICS")
 4) open the provided ESP32 code in a seeprate VS-code window (PlatformIO extention needed) and change in the gripper and arm ````Cofiguration.h```` the needed network parameters
 5) upload the modified code on the gripper ESP and arm ESP
-6) make sure the robot is in it`s home position (because we have no joint angle sensors on our hardware we need this pose as a common starting point in bezween the hardware and the digital twin)
+6) make sure the robot is in it`s home position (because we have no joint angle sensors on our hardware we need this pose as a common starting point in between the hardware and the digital twin)
 7) power on the robot and wait until the ESP's are connedćted to the shared network
-8) launch all required nodes to make the whole integration work by typing the following line in your terminal ````ros2 launch diy_robot_wer24_moveit complete.launch.py use_fake_hardware:=false robot_ip:=<your arm ip> gripper_ip:= <your gripper ip>````
+8) launch all required nodes to make the whole integration work by typing the following line in your terminal <br> ````ros2 launch diy_robot_wer24_moveit complete.launch.py use_fake_hardware:=false robot_ip:=<your arm ip> gripper_ip:= <your gripper ip>```` <br>
    In this case we have to pass at least the mentioned launch arguments.
 
 Now the Rviz window with MoveIt included should have started and the displays on the hardware side should visualize that a connection is established sucessfully.
+You should recognize this log-message in the terminal you started the launch file too: <br> ````[ros2_control_node-1] [INFO] [1708697874.866430796] [ESP32_Driver]: Successfully connected to the Robot via TCP-IP! ````
+
 
 Now you can move the robot arond and perform motion planning tasks by pressing the Plan& Execute button on the lower lefthand side.
 Feel free to try all functionalities Rviz already provides.
