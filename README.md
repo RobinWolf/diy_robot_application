@@ -49,7 +49,7 @@ Now you should be inside your docker container at your working workspace ````hep
 
 Now the Rviz window with MoveIt included should have started:
 
-![moveit_screen](../images/moveit_screen.png)
+![moveit_window](../images/moveit_window.png)
 
 Now you can move the robot arond and perform motion planning tasks by pressing the Plan& Execute button on the lower lefthand side.
 Feel free to try all functionalities Rviz already provides.
