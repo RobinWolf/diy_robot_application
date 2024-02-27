@@ -28,3 +28,11 @@ This package is designed as an development-package. We will work with the ````sr
 We will come back later to this point.
 
 ## HowTo: Your first robot application:
+1) clone this repo to your dev-machine
+2) open VS-Code or any other IDE and add the ````src````folder to your workspace
+3) open a terimial (Terminator ist highly recommended)
+4) navigate to the folder you cloned the repo in from step 1 (using cd <path> and ls to view content)
+5) build the container by sourcing the run-script ````./run.sh```` Note: working wifi connection is required because the dependencie packages will now be cloned directly in your container from GitHub.
+
+Now you should be inside your docker container:
+![inside_conteiner(../images/inside_conteiner.png)
