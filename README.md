@@ -38,8 +38,8 @@ We will come back later to this point.
 4) navigate to the folder you cloned the repo in from step 1 (using cd <path> and ls to view content)
 5) build the container by sourcing the run-script ````./run.sh```` Note: working wifi connection is required because the dependencie packages will now be cloned directly in your container from GitHub.
 
-Now you should be inside your docker container:
-![inside_conteiner(../images/inside_conteiner.png)
+Now you should be inside your docker container at your working workspace ````hephaestus@§USER:~/ros2_ws$ ````
+
 
 ### Set up the Application in Simulation (use_fake_hardware:=true) and execute the provided example.py:
 1) build your workspace inside of the container ````colcon build````
