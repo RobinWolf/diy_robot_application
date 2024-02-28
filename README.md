@@ -102,6 +102,7 @@ import rclpy
 from ros_environment.scene import RobotClient
 from manipulation_tasks.transform import Affine #for 6D transformation 
 import numpy as np
+import time
 
 def main(args=None):
     # initialize ros communications for a given context 
