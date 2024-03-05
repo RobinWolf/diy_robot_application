@@ -128,12 +128,18 @@ def gripper_test(robot):
 
     #open the gripper
     robot.toggle_gripper(False)
+    print('open')
 
     #wait
-    time.sleep(3)
+    time.sleep(10)
 
     #close the gripper
     robot.toggle_gripper(True)
+    print('close')
+
+
+    #wait
+    time.sleep(10)
 
 
 
@@ -146,21 +152,22 @@ def main(args=None):
     rclpy.init(args=args)
 
     # initialize robot client node --> this will create clients in the RobotConnection class which call services to communicate with moveit
-    robot = RobotClient(is_simulation=True)     # if not connected to the real robot set is_simulation=True 
+    robot = RobotClient(is_simulation=False)     # if not connected to the real robot set is_simulation=True 
     
     #define a home position (when want to use default [0.0, 0.0, 0.0, 0.0, 0.0, 0.0] you don't need this definition) -> floats required
     robot.home_position = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
     # move robot to home position
-    robot.home()
+    #robot.home()
 
     # run one of the test scedules to make yourself familiar with the different movements
     # please notice: motion-planning is a probabilistic procedure and taken trajectories to do the movements are not the same everytime you run the test scedules
-    cartestan_relative_world_test(robot)
+    for i in range(20):
+        gripper_test(robot)
 
     time.sleep(5)
 
-    robot.home()
+    #robot.home()
 
     # destroy the robot node, stop execution
     robot.destroy_node()
