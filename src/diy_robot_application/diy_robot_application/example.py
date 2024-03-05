@@ -158,22 +158,25 @@ def main(args=None):
     robot.home_position = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
     # move robot to home position
-    #robot.home()
+    robot.home()
 
     # run one of the test scedules to make yourself familiar with the different movements
     # please notice: motion-planning is a probabilistic procedure and taken trajectories to do the movements are not the same everytime you run the test scedules
-    for i in range(20):
-        gripper_test(robot)
+    joint_absolute_ptp_test(robot)
 
     time.sleep(5)
 
-    #robot.home()
+    robot.home()
 
     # destroy the robot node, stop execution
     robot.destroy_node()
 
     # shutdown previously initialized context
     rclpy.shutdown()
+
+
+    ## NOTE: lin movement is currently not working with the real hardware, we are still looking for the bug (01.03.24)
+
 
 
 
