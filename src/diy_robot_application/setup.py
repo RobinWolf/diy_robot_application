@@ -23,7 +23,8 @@ setup(
     entry_points={                                                     
         'console_scripts': [                        
             'example = diy_robot_application.example:main',
-            'printworldpos= diy_robot_application.printworldpos:main',   
+            'printworldpos= diy_robot_application.printworldpos:main',
+            'pick_place = diy_robot_application.pick_place_demo:main'   
         ],
     },
 )

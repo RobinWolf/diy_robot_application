@@ -34,6 +34,7 @@ def cartesian_absolute_ptp_test(robot):
     robot.ptp(Affine((-0.3, -0.15, 0.2), 
                       (-np.pi, 0, 0)))
     
+    
     #print current transform/ pose of the tcp_link
     current_pose = robot.node.get_transform('grip_tcp_link', 'world')
     print(current_pose)
@@ -41,6 +42,7 @@ def cartesian_absolute_ptp_test(robot):
     #use quarternions instead of euler angles for the orientation
     robot.ptp(Affine((0.3, -0.15, 0.2), 
                       (1, 0, 0, 0)))
+    
     
     #print current transform/ pose of the tcp_link
     current_pose = robot.node.get_transform('grip_tcp_link', 'world')
@@ -70,11 +72,12 @@ def cartesian_absolute_lin_test(robot):
 
     ### did you notice the difference in choosen trajectories for the same target posistions between ptp and lin ?
 
+
 def cartestan_relative_world_test(robot):
 
     # robot ptp movement to given cartesian pose                                                
     # first tuple represents cartesian coordinates (x, y, z), the second tuple represents rotation in quaternions (x, y, z, w) or euler-angles (r, p, y)
-    robot.ptp(Affine((-0.2, -0.2, 0.3), 
+    robot.ptp(Affine((-0.2, 0.0, 0.3), 
                       (-np.pi, 0, 0)))
 
     # define the relative movement of the tcp in world-coordinates: translation in world coordinate system (0.2 in z_world direction)
@@ -99,7 +102,7 @@ def cartestan_relative_tcp_test(robot):
 
     # robot ptp movement to given cartesian pose                                                
     # first tuple represents cartesian coordinates (x, y, z), the second tuple represents rotation in quaternions (x, y, z, w) or euler-angles (r, p, y)
-    robot.ptp(Affine((-0.2, -0.2, 0.3), 
+    robot.ptp(Affine((-0.2, -0.1, 0.3), 
                       (-np.pi, 0, 0)))
 
     # define the relative movement of the tcp in tcp-coordinates: translation in tcp coordinate system (0.1 in z_world direction)
@@ -152,8 +155,8 @@ def main(args=None):
     robot.home()
 
     # run one of the test scedules to make yourself familiar with the different movements
-    # please notice: motion-planning is a probabilistic procedure and taken trayectories to do the movements are not the same everytime you run the test scedules
-    joint_absolute_ptp_test(robot)
+    # please notice: motion-planning is a probabilistic procedure and taken trajectories to do the movements are not the same everytime you run the test scedules
+    cartestan_relative_world_test(robot)
 
     time.sleep(5)
 
