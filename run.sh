@@ -13,7 +13,7 @@ rand=$(date +%s)
 #dont use cached data to clone up-to date repos all the time
   #--no-cache \
 docker build \
-  --build-arg CACHEBUST=$rand\
+  --build-arg CACHEBUST="$rand"\
   --build-arg ROS_DISTRO="$ROS_DISTRO" \
   --build-arg UID="$uid" \
   --build-arg GID="$gid" \
