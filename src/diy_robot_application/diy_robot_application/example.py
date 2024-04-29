@@ -53,18 +53,26 @@ def cartesian_absolute_ptp_test(robot):
 
 def cartesian_absolute_lin_test(robot):
 
+    #set the lin-movement speed to 10% of the maximum limit
+    ptp_speed = 0.2
+
     # robot ptp movement to given cartesian pose                                                
     # first tuple represents cartesian coordinates (x, y, z), the second tuple represents rotation in quaternions (x, y, z, w) or euler-angles (r, p, y)
     robot.ptp(Affine((-0.3, -0.15, 0.2), 
-                      (-np.pi, 0, 0)))
+                      (-np.pi, 0, 0)),ptp_speed)
     
     #print current transform/ pose of the tcp_link
     current_pose = robot.node.get_transform('grip_tcp_link', 'world')
     print(current_pose)
 
+    time.sleep(3)
+
+    #set the lin-movement speed to 10% of the maximum limit
+    lin_speed = 0.2
+
     #use quarternions instead of euler angles, move in a line to the next pose
-    robot.lin(Affine((0.3, -0.15, 0.2), 
-                      (1, 0, 0, 0)))
+    robot.lin(Affine((-0.1, -0.15, 0.2), 
+                      (1, 0, 0, 0)),lin_speed)
     
     #print current transform/ pose of the tcp_link
     current_pose = robot.node.get_transform('grip_tcp_link', 'world')
@@ -131,7 +139,7 @@ def gripper_test(robot):
     print('open')
 
     #wait
-    time.sleep(10)
+    time.sleep(5)
 
     #close the gripper
     robot.toggle_gripper(True)
@@ -139,7 +147,11 @@ def gripper_test(robot):
 
 
     #wait
-    time.sleep(10)
+    time.sleep(5)
+
+    #open the gripper
+    robot.toggle_gripper(False)
+    print('open')
 
 
 
@@ -152,7 +164,7 @@ def main(args=None):
     rclpy.init(args=args)
 
     # initialize robot client node --> this will create clients in the RobotConnection class which call services to communicate with moveit
-    robot = RobotClient(is_simulation=False)     # if not connected to the real robot set is_simulation=True 
+    robot = RobotClient(is_simulation=True)     # if not connected to the real robot set is_simulation=True 
     
     #define a home position (when want to use default [0.0, 0.0, 0.0, 0.0, 0.0, 0.0] you don't need this definition) -> floats required
     robot.home_position = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
@@ -162,7 +174,7 @@ def main(args=None):
 
     # run one of the test scedules to make yourself familiar with the different movements
     # please notice: motion-planning is a probabilistic procedure and taken trajectories to do the movements are not the same everytime you run the test scedules
-    joint_absolute_ptp_test(robot)
+    cartesian_absolute_lin_test(robot)
 
     time.sleep(5)
 

@@ -25,6 +25,7 @@ SRC_CONTAINER=/home/hephaestus/ros2_ws/src
 SRC_HOST="$(pwd)"/src
 
 docker run \
+  --build-arg CACHEBUST=$(date +%s)\
   --name diy_robot_application\
   --rm \
   -it \
