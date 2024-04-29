@@ -12,6 +12,7 @@ gid=$(eval "id -g")
 #dont use cached data to clone up-to date repos all the time
   #--no-cache \
 docker build \
+  --build-arg CACHEBUST=$(date +%s)\
   --build-arg ROS_DISTRO="$ROS_DISTRO" \
   --build-arg UID="$uid" \
   --build-arg GID="$gid" \
@@ -25,7 +26,6 @@ SRC_CONTAINER=/home/hephaestus/ros2_ws/src
 SRC_HOST="$(pwd)"/src
 
 docker run \
-  --build-arg CACHEBUST=$(date +%s)\
   --name diy_robot_application\
   --rm \
   -it \
