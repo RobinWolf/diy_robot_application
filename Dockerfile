@@ -181,7 +181,7 @@ USER $USER
 ###################################################################################
 FROM  diy_gripper_driver as diy_robotarm_moveit
 
-ARG CACHEBUST = 1
+ARG CACHEBUST=1
 
 # Clone the diy-soft-gripper-driver package into its own workspace
 RUN mkdir -p /home/$USER/dependencies/diy_robot_moveit_ws/src
