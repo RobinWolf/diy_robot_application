@@ -55,11 +55,12 @@ def cartesian_absolute_lin_test(robot):
 
     #set the lin-movement speed to 10% of the maximum limit
     ptp_speed = 0.2
+    robot.setVelocity(ptp_speed)
 
     # robot ptp movement to given cartesian pose                                                
     # first tuple represents cartesian coordinates (x, y, z), the second tuple represents rotation in quaternions (x, y, z, w) or euler-angles (r, p, y)
     robot.ptp(Affine((-0.3, -0.15, 0.2), 
-                      (-np.pi, 0, 0)),ptp_speed)
+                      (-np.pi, 0, 0)))
     
     #print current transform/ pose of the tcp_link
     current_pose = robot.node.get_transform('grip_tcp_link', 'world')
@@ -68,15 +69,19 @@ def cartesian_absolute_lin_test(robot):
     time.sleep(3)
 
     #set the lin-movement speed to 10% of the maximum limit
-    lin_speed = 0.2
+    lin_speed = 0.1
+    robot.setVelocity(lin_speed)
+
 
     #use quarternions instead of euler angles, move in a line to the next pose
     robot.lin(Affine((-0.1, -0.15, 0.2), 
-                      (1, 0, 0, 0)),lin_speed)
+                      (1, 0, 0, 0)))
     
     #print current transform/ pose of the tcp_link
     current_pose = robot.node.get_transform('grip_tcp_link', 'world')
     print(current_pose)
+
+    robot.setVelocity(ptp_speed)
 
     ### did you notice the difference in choosen trajectories for the same target posistions between ptp and lin ?
 
@@ -177,6 +182,7 @@ def main(args=None):
     cartesian_absolute_lin_test(robot)
 
     time.sleep(5)
+
 
     robot.home()
 
